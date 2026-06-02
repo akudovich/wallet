@@ -8,5 +8,7 @@ interface WalletRepository
 {
     public function find(int $id): Wallet|null;
 
-    public function save(Wallet $wallet): void;
+    public function debit(int $id, Money $amount): void;
+
+    public function credit(int $id, Money $amount): void;
 }

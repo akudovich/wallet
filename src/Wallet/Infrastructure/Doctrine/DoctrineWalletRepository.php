@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Wallet\Infrastructure\Doctrine;
 
+use App\Wallet\Domain\Exception\CurrencyMismatch;
+use App\Wallet\Domain\Exception\InsufficientFunds;
+use App\Wallet\Domain\Money;
 use App\Wallet\Domain\Wallet;
 use App\Wallet\Domain\WalletRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,5 +25,47 @@ final readonly class DoctrineWalletRepository implements WalletRepository
     public function find(int $id): ?Wallet
     {
         return $this->em->find(Wallet::class, $id);
+    }
+
+    public function debit(int $id, Money $amount): void
+    {
+        $affected = $this->em->getConnection()
+            ->executeStatement(
+                'INSERT INTO wallet (id, balance_amount, balance_currency) VALUES (:id, :amount, :currency) ON CONFLICT (id) DO UPDATE SET balance_amount = wallet.balance_amount + EXCLUDED.balance_amount WHERE wallet.balance_currency = EXCLUDED.balance_currency',
+                [
+                    'id' => $id,
+                    'amount' => $amount->getAmount(),
+                    'currency' => $amount->getCurrency()
+                        ->value,
+                ],
+            );
+        if ($affected === 0) {
+            $wallet = $this->find($id);
+            if ($wallet === null) {
+                throw new \LogicException('Wallet not found');
+            }
+            throw CurrencyMismatch::between($wallet->getBalance()->getCurrency(), $amount->getCurrency());
+        }
+    }
+
+    public function credit(int $id, Money $amount): void
+    {
+        $affected = $this->em->getConnection()
+            ->executeStatement(
+                'UPDATE wallet SET balance_amount = balance_amount - :amount WHERE id = :id AND balance_currency = :currency AND balance_amount >= :amount',
+                [
+                    'id' => $id,
+                    'amount' => $amount->getAmount(),
+                    'currency' => $amount->getCurrency()
+                        ->value,
+                ],
+            );
+        if ($affected === 0) {
+            $wallet = $this->find($id);
+            if ($wallet !== null && $wallet->getBalance()->getCurrency() !== $amount->getCurrency()) {
+                throw CurrencyMismatch::between($wallet->getBalance()->getCurrency(), $amount->getCurrency());
+            }
+            throw InsufficientFunds::forWallet($id, $amount->getAmount());
+        }
     }
 }

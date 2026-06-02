@@ -1,4 +1,4 @@
-localhost {
+http://localhost {
 	root * /app/public
 
 	php_server {

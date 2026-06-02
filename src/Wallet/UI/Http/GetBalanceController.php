@@ -19,12 +19,17 @@ final class GetBalanceController
         private GetBalanceService $service,
     ) {}
 
-    #[Route('/balance/{id}', requirements: [
-        'id' => Requirement::POSITIVE_INT,
-    ])]
+    #[Route(
+        path: '/balance/{id}',
+        requirements: [
+            'id' => Requirement::POSITIVE_INT,
+        ],
+        methods: ['GET']
+    )]
     public function __invoke(int $id): Response
     {
-        $data = $this->serializer->serialize($this->service->getBalance($id), 'json');
+        $balanceView = $this->service->getBalance($id);
+        $data = $this->serializer->serialize($balanceView, 'json');
         return JsonResponse::fromJsonString($data);
     }
 }

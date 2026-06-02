@@ -7,18 +7,18 @@ namespace App\Wallet\Domain;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-final class Wallet
+final readonly class Wallet
 {
-    public function __construct(
-        #[ORM\Embedded(class: Money::class)]
-        private Money $balance,
+    private function __construct(
         #[ORM\Id]
         #[ORM\GeneratedValue]
         #[ORM\Column]
-        private int|null $id = null,
+        private int $id,
+        #[ORM\Embedded(class: Money::class)]
+        private Money $balance,
     ) {}
 
-    public function getId(): int|null
+    public function getId(): int
     {
         return $this->id;
     }
@@ -26,15 +26,5 @@ final class Wallet
     public function getBalance(): Money
     {
         return $this->balance;
-    }
-
-    public function stock(Money $stock): void
-    {
-        $this->balance = $this->balance->add($stock);
-    }
-
-    public function refund(Money $refund): void
-    {
-        $this->balance = $this->balance->sub($refund);
     }
 }

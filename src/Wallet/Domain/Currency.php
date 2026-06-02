@@ -13,4 +13,12 @@ enum Currency: string
     {
         return self::RUB;
     }
+
+    /**
+     * @return list<string>
+     */
+    public static function getValues(): array
+    {
+        return array_column(self::cases(), 'value');
+    }
 }
