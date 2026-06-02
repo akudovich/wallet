@@ -1,0 +1,18 @@
+localhost {
+	root * /app/public
+
+	php_server {
+		root /app/public
+		try_files {path} index.php
+		worker {
+			file index.php
+			watch /app/src/**/*.php
+			watch /app/config/**/*.yaml
+			watch /app/config/**/*.php
+			watch /app/.env
+			watch /app/.env.local
+			watch /app/.env.dev
+			watch /app/.env.dev.local
+		}
+	}
+}
