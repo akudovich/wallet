@@ -1,6 +1,5 @@
 # Wallet
 
-[![CI](https://github.com/akudovich/wallet/actions/workflows/ci.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/ci.yaml)
 [![Composer](https://github.com/akudovich/wallet/actions/workflows/composer-validate.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/composer-validate.yaml)
 [![Security](https://github.com/akudovich/wallet/actions/workflows/security-audit.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/security-audit.yaml)
 [![Code Style](https://github.com/akudovich/wallet/actions/workflows/code-style.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/code-style.yaml)
