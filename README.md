@@ -150,6 +150,12 @@ Run PHPStan:
 docker compose exec php composer phpstan
 ```
 
+Run architecture checks:
+
+```bash
+docker compose exec php composer deptrac
+```
+
 Prepare the test database:
 
 ```bash
@@ -186,6 +192,67 @@ Run the same checks as CI:
 docker compose exec php composer ci
 ```
 
+## Architecture Checks
+
+Architecture rules are checked with Deptrac. The configuration is located at:
+
+```text
+deptrac.yaml
+```
+
+The current layers are:
+
+- `PSR Contracts` for `Psr\\*` interfaces
+- `Doctrine Attributes` for `Doctrine\\ORM\\Mapping\\*`
+- `Doctrine Runtime` for Doctrine DBAL/ORM runtime services
+- `Symfony UI` for Symfony HTTP, routing, validation, and serialization classes
+- `Domain`
+- `Application`
+- `Infrastructure`
+- `UI`
+
+The dependency direction follows Clean Architecture:
+
+- `Domain` can depend on `PSR Contracts` and `Doctrine Attributes`
+- `Application` can depend on `Domain` and `PSR Contracts`
+- `Infrastructure` can depend on `Application`, `Domain`, `PSR Contracts`, and `Doctrine Runtime`
+- `UI` can depend on `Application`, `Domain`, `PSR Contracts`, and `Symfony UI`
+
+Doctrine attributes are allowed in the domain intentionally as a pragmatic
+Doctrine ORM mapping choice.
+
+Run the default architecture check:
+
+```bash
+docker compose exec php composer deptrac
+```
+
+Show uncovered dependencies:
+
+```bash
+docker compose exec php vendor/bin/deptrac analyse \
+  --cache-file=var/deptrac/cache \
+  --report-uncovered
+```
+
+Generate a JSON report:
+
+```bash
+docker compose exec php vendor/bin/deptrac analyse \
+  --cache-file=var/deptrac/cache \
+  --formatter=json \
+  --output=var/deptrac/report.json
+```
+
+Generate a Mermaid graph:
+
+```bash
+docker compose exec php vendor/bin/deptrac analyse \
+  --cache-file=var/deptrac/cache \
+  --formatter=mermaidjs \
+  --output=var/deptrac/architecture.mmd
+```
+
 ## CI
 
 GitHub Actions workflows are located in:
@@ -194,14 +261,20 @@ GitHub Actions workflows are located in:
 .github/workflows
 ```
 
-The aggregate `CI` workflow runs on PHP `8.4` and `8.5` and executes:
+Each check has its own workflow and README badge:
 
-- `composer validate --strict`
-- `composer audit`
-- Symfony container lint
-- Doctrine mapping validation
-- ECS
-- PHPStan
-- PHPUnit
+- `composer-validate.yaml` runs `composer validate --strict`
+- `security-audit.yaml` runs `composer audit --locked`
+- `code-style.yaml` runs ECS
+- `architecture.yaml` runs Deptrac
+- `phpstan.yaml` runs PHPStan
+- `symfony-container.yaml` lints the Symfony container
+- `doctrine-mapping.yaml` validates Doctrine mapping
+- `tests.yaml` runs PHPUnit
+- `coverage.yaml` generates coverage and uploads it to Codecov
 
-Separate workflows are also configured for individual README badges.
+The same local checks can be run with:
+
+```bash
+docker compose exec php composer ci
+```

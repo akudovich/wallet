@@ -6,7 +6,7 @@ namespace App\Wallet\Domain\Exception;
 
 use App\Wallet\Domain\Currency;
 
-class CurrencyMismatch extends DomainException
+final class CurrencyMismatch extends DomainException
 {
     public static function between(Currency $left, Currency $right): self
     {

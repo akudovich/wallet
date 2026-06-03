@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Wallet\Domain\Transaction;
 
+use App\Wallet\Domain\Clock;
 use App\Wallet\Domain\Money;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Clock\Clock;
-use Symfony\Component\Clock\DatePoint;
 
 #[ORM\Entity]
 final class Transaction
@@ -40,8 +40,8 @@ final class Transaction
         }
     }
 
-    #[ORM\Column(type: 'date_point')]
-    public DatePoint $createdAt {
+    #[ORM\Column(type: 'datetime_immutable')]
+    public DateTimeImmutable $createdAt {
         get {
             return $this->createdAt;
         }

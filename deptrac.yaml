@@ -1,0 +1,71 @@
+deptrac:
+  paths:
+    - ./src/Wallet
+
+  layers:
+    - name: PSR Contracts
+      collectors:
+        - type: classLike
+          value: Psr\\.*
+
+    - name: Doctrine Attributes
+      collectors:
+        - type: classLike
+          value: Doctrine\\ORM\\Mapping\\.*
+
+    - name: Doctrine Runtime
+      collectors:
+        - type: bool
+          must:
+            - type: classLike
+              value: Doctrine\\(DBAL|ORM)\\.*
+          must_not:
+            - type: classLike
+              value: Doctrine\\ORM\\Mapping\\.*
+
+    - name: Symfony UI
+      collectors:
+        - type: classLike
+          value: Symfony\\Component\\(HttpFoundation|HttpKernel|Routing|Serializer|Validator)\\.*
+
+    - name: Domain
+      collectors:
+        - type: classLike
+          value: App\\Wallet\\Domain\\.*
+
+    - name: Application
+      collectors:
+        - type: classLike
+          value: App\\Wallet\\Application\\.*
+
+    - name: Infrastructure
+      collectors:
+        - type: classLike
+          value: App\\Wallet\\Infrastructure\\.*
+
+    - name: UI
+      collectors:
+        - type: classLike
+          value: App\\Wallet\\UI\\.*
+
+  ruleset:
+    PSR Contracts: ~
+    Doctrine Attributes: ~
+    Doctrine Runtime: ~
+    Symfony UI: ~
+    Domain:
+      - Doctrine Attributes
+      - PSR Contracts
+    Application:
+      - Domain
+      - PSR Contracts
+    Infrastructure:
+      - Application
+      - Doctrine Runtime
+      - Domain
+      - PSR Contracts
+    UI:
+      - Application
+      - Domain
+      - PSR Contracts
+      - Symfony UI
