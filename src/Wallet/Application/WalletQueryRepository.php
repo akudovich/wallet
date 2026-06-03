@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Wallet\Domain;
+namespace App\Wallet\Application;
 
 use App\Wallet\Application\DTO\BalanceView;
 

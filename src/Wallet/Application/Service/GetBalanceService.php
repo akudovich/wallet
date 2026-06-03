@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Wallet\Application\Service;
 
 use App\Wallet\Application\DTO\BalanceView;
-use App\Wallet\Domain\WalletQueryRepository;
+use App\Wallet\Application\WalletQueryRepository;
 
 final readonly class GetBalanceService
 {

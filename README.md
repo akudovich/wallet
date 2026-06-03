@@ -6,6 +6,7 @@
 [![Security](https://github.com/akudovich/wallet/actions/workflows/security-audit.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/security-audit.yaml)
 [![Code Style](https://github.com/akudovich/wallet/actions/workflows/code-style.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/code-style.yaml)
 [![PHPStan](https://github.com/akudovich/wallet/actions/workflows/phpstan.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/phpstan.yaml)
+[![Architecture](https://github.com/akudovich/wallet/actions/workflows/architecture.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/architecture.yaml)
 
 **Framework**
 

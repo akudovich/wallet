@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Wallet\Infrastructure\Doctrine;
 
 use App\Wallet\Application\DTO\BalanceView;
+use App\Wallet\Application\WalletQueryRepository;
 use App\Wallet\Domain\Currency;
-use App\Wallet\Domain\WalletQueryRepository;
 use Doctrine\DBAL\Connection;
 
 final readonly class DoctrineWalletQueryRepository implements WalletQueryRepository

@@ -30,6 +30,7 @@
         }
     },
     "require-dev": {
+        "deptrac/deptrac": "^4.6",
         "phpstan/phpstan": "^2.2",
         "phpstan/phpstan-doctrine": "^2.0",
         "phpstan/phpstan-symfony": "^2.0",
@@ -86,6 +87,7 @@
             "@qa"
         ],
         "composer-validate": "composer validate --strict",
+        "deptrac": "vendor/bin/deptrac analyse --cache-file=var/deptrac/cache --ansi",
         "doctrine-validate": "@php bin/console doctrine:schema:validate --env=test --skip-sync",
         "fix-cs": "vendor/bin/ecs check --fix --ansi",
         "lint-container": "@php bin/console lint:container --env=test",
@@ -105,6 +107,7 @@
         ],
         "qa": [
             "@check-cs",
+            "@deptrac",
             "@phpstan",
             "@phpunit"
         ]
