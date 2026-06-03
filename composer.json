@@ -90,7 +90,7 @@
         "fix-cs": "vendor/bin/ecs check --fix --ansi",
         "lint-container": "@php bin/console lint:container --env=test",
         "phpstan": "vendor/bin/phpstan --memory-limit=1G",
-        "security-audit": "composer audit",
+        "security-audit": "composer audit --locked",
         "test-setup": [
             "@php bin/console doctrine:database:create --env=test --if-not-exists --no-interaction",
             "@php bin/console doctrine:migrations:migrate --env=test --no-interaction"
