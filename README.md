@@ -8,7 +8,6 @@
 [![Symfony Container](https://github.com/akudovich/wallet/actions/workflows/symfony-container.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/symfony-container.yaml)
 [![Doctrine Mapping](https://github.com/akudovich/wallet/actions/workflows/doctrine-mapping.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/doctrine-mapping.yaml)
 [![Tests](https://github.com/akudovich/wallet/actions/workflows/tests.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/tests.yaml)
-[![Coverage](https://github.com/akudovich/wallet/actions/workflows/coverage.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/coverage.yaml)
 [![Codecov](https://codecov.io/gh/akudovich/wallet/branch/master/graph/badge.svg)](https://app.codecov.io/gh/akudovich/wallet)
 
 Simple wallet service built with Symfony, Doctrine ORM, and PostgreSQL.
