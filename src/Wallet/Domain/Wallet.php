@@ -13,18 +13,8 @@ final readonly class Wallet
         #[ORM\Id]
         #[ORM\GeneratedValue]
         #[ORM\Column]
-        private int $id,
+        public int $id,
         #[ORM\Embedded(class: Money::class)]
-        private Money $balance,
+        public Money $balance,
     ) {}
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function getBalance(): Money
-    {
-        return $this->balance;
-    }
 }

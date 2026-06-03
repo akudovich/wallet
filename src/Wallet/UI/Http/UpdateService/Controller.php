@@ -52,7 +52,7 @@ final readonly class Controller
         } catch (DomainException $e) {
             return new JsonResponse([
                 'error' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_CONFLICT);
         }
 
         $data = $this->serializer->serialize(true, 'json');

@@ -101,7 +101,7 @@
         ],
         "coverage": [
             "@test-setup",
-            "vendor/bin/phpunit --coverage-text --coverage-html var/coverage"
+            "vendor/bin/phpunit --coverage-text --coverage-html var/coverage --coverage-clover var/coverage/clover.xml"
         ],
         "qa": [
             "@check-cs",
