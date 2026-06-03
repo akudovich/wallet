@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
   coverage:
@@ -66,4 +65,4 @@ jobs:
         with:
           files: var/coverage/clover.xml
           fail_ci_if_error: true
-          use_oidc: true
+          token: ${{ secrets.CODECOV_TOKEN }}
