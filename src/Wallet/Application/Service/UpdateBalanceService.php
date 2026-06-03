@@ -29,7 +29,6 @@ final readonly class UpdateBalanceService
         );
 
         $this->transactionManager->transactional(function () use ($transaction): void {
-            $this->transactionRepository->save($transaction);
             match ($transaction->type) {
                 TransactionType::DEBIT => $this->repository->debit(
                     id: $transaction->walletId,
@@ -40,6 +39,7 @@ final readonly class UpdateBalanceService
                     amount: $transaction->amount,
                 ),
             };
+            $this->transactionRepository->save($transaction);
         });
     }
 }

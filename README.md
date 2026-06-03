@@ -1,11 +1,19 @@
 # Wallet
 
+**Quality**
+
 [![Composer](https://github.com/akudovich/wallet/actions/workflows/composer-validate.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/composer-validate.yaml)
 [![Security](https://github.com/akudovich/wallet/actions/workflows/security-audit.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/security-audit.yaml)
 [![Code Style](https://github.com/akudovich/wallet/actions/workflows/code-style.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/code-style.yaml)
 [![PHPStan](https://github.com/akudovich/wallet/actions/workflows/phpstan.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/phpstan.yaml)
+
+**Framework**
+
 [![Symfony Container](https://github.com/akudovich/wallet/actions/workflows/symfony-container.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/symfony-container.yaml)
 [![Doctrine Mapping](https://github.com/akudovich/wallet/actions/workflows/doctrine-mapping.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/doctrine-mapping.yaml)
+
+**Tests**
+
 [![Tests](https://github.com/akudovich/wallet/actions/workflows/tests.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/tests.yaml)
 [![Codecov](https://codecov.io/gh/akudovich/wallet/branch/master/graph/badge.svg)](https://app.codecov.io/gh/akudovich/wallet)
 
@@ -87,6 +95,39 @@ Supported values:
 - transaction type: `debit`, `credit`
 - transaction reason: `stock`, `refund`
 - currency: `RUB`, `USD`
+
+## Race Conditions
+
+Balance updates are protected at the database level.
+
+The application does not read a wallet balance, calculate a new value in PHP, and
+then write it back. That pattern would be vulnerable to lost updates when two
+requests update the same wallet at the same time.
+
+Instead, wallet changes are performed with atomic SQL statements inside a
+database transaction:
+
+- debit uses `INSERT ... ON CONFLICT ... DO UPDATE` and increments the stored
+  balance in PostgreSQL
+- credit uses a conditional `UPDATE` with `balance_amount >= :amount`
+- currency checks are part of the same SQL condition
+- transaction history and balance update are wrapped in one Doctrine transaction
+
+For example, credit is implemented as a single guarded update:
+
+```sql
+UPDATE wallet
+SET balance_amount = balance_amount - :amount
+WHERE id = :id
+  AND balance_currency = :currency
+  AND balance_amount >= :amount
+```
+
+If two concurrent credit requests try to spend the same balance, PostgreSQL
+serializes writes to the affected row. The first successful update changes the
+balance, and the second request re-checks the `WHERE` condition against the
+current row version. If there is not enough money anymore, no row is updated and
+the application returns an insufficient funds error.
 
 ## Useful Commands
 
