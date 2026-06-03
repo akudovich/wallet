@@ -18,6 +18,11 @@
 [![Tests](https://github.com/akudovich/wallet/actions/workflows/tests.yaml/badge.svg)](https://github.com/akudovich/wallet/actions/workflows/tests.yaml)
 [![Codecov](https://codecov.io/gh/akudovich/wallet/branch/master/graph/badge.svg)](https://app.codecov.io/gh/akudovich/wallet)
 
+**Stats**
+
+![GitHub repo file count](https://img.shields.io/github/directory-file-count/akudovich/wallet)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/akudovich/wallet)
+
 Simple wallet service built with Symfony, Doctrine ORM, and PostgreSQL.
 
 ## Requirements
