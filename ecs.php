@@ -6,6 +6,7 @@ use PhpCsFixer\Fixer\Basic\SingleLineEmptyBodyFixer;
 use PhpCsFixer\Fixer\ClassNotation\FinalClassFixer;
 use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
 use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
+use Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return ECSConfig::configure()
@@ -30,4 +31,7 @@ return ECSConfig::configure()
         symplify: true,
         cleanCode: true,
     )
+    ->withSkip([
+        MethodChainingNewlineFixer::class,
+    ])
     ;

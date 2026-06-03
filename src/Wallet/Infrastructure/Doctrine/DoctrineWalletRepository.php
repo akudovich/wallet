@@ -17,11 +17,6 @@ final readonly class DoctrineWalletRepository implements WalletRepository
         private EntityManagerInterface $em,
     ) {}
 
-    public function save(Wallet $wallet): void
-    {
-        $this->em->persist($wallet);
-    }
-
     public function find(int $id): ?Wallet
     {
         return $this->em->find(Wallet::class, $id);
@@ -35,8 +30,7 @@ final readonly class DoctrineWalletRepository implements WalletRepository
                 [
                     'id' => $id,
                     'amount' => $amount->amount,
-                    'currency' => $amount->currency
-                        ->value,
+                    'currency' => $amount->currency->value,
                 ],
             );
         if ($affected === 0) {
@@ -56,8 +50,7 @@ final readonly class DoctrineWalletRepository implements WalletRepository
                 [
                     'id' => $id,
                     'amount' => $amount->amount,
-                    'currency' => $amount->currency
-                        ->value,
+                    'currency' => $amount->currency->value,
                 ],
             );
         if ($affected === 0) {

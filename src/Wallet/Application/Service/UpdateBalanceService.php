@@ -30,14 +30,14 @@ final readonly class UpdateBalanceService
 
         $this->transactionManager->transactional(function () use ($transaction): void {
             $this->transactionRepository->save($transaction);
-            match ($transaction->getType()) {
+            match ($transaction->type) {
                 TransactionType::DEBIT => $this->repository->debit(
-                    id: $transaction->getWalletId(),
-                    amount: $transaction->getAmount(),
+                    id: $transaction->walletId,
+                    amount: $transaction->amount,
                 ),
                 TransactionType::CREDIT => $this->repository->credit(
-                    id: $transaction->getWalletId(),
-                    amount: $transaction->getAmount(),
+                    id: $transaction->walletId,
+                    amount: $transaction->amount,
                 ),
             };
         });

@@ -18,8 +18,8 @@
     </php>
 
     <testsuites>
-        <testsuite name="Wallet Functional">
-            <directory>tests/Wallet/UI/Http</directory>
+        <testsuite name="Wallet">
+            <directory>tests/Wallet</directory>
         </testsuite>
     </testsuites>
 

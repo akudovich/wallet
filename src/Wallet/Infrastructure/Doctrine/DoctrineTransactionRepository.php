@@ -18,11 +18,4 @@ final readonly class DoctrineTransactionRepository implements TransactionReposit
     {
         $this->em->persist($transaction);
     }
-
-    public function last(): Transaction|null
-    {
-        return $this->em->getRepository(Transaction::class)->findOneBy([], [
-            'id' => 'DESC',
-        ]);
-    }
 }

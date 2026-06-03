@@ -8,7 +8,5 @@ use App\Wallet\Domain\Transaction\Transaction;
 
 interface TransactionRepository
 {
-    public function last(): Transaction|null;
-
     public function save(Transaction $transaction): void;
 }
