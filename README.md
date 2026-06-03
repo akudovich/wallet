@@ -36,17 +36,7 @@ Build and start the services:
 docker compose up -d --build
 ```
 
-Install Composer dependencies:
-
-```bash
-docker compose exec php composer install
-```
-
-Run database migrations:
-
-```bash
-docker compose exec php php bin/console doctrine:migrations:migrate --no-interaction
-```
+On startup, the PHP container installs Composer dependencies, waits for PostgreSQL, and runs Doctrine migrations automatically.
 
 The application is available at:
 
