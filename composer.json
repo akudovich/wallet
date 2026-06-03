@@ -1,13 +1,13 @@
 {
     "name": "akudovich/wallet",
     "description": "Simple wallet service",
-    "tags": ["DDD", "SQRS", "Clean Architecture"],
+    "keywords": ["DDD", "SQRS", "Clean Architecture"],
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^3.2",
@@ -78,8 +78,19 @@
             "@auto-scripts"
         ],
         "check-cs": "vendor/bin/ecs check --ansi",
+        "ci": [
+            "@composer-validate",
+            "@security-audit",
+            "@lint-container",
+            "@doctrine-validate",
+            "@qa"
+        ],
+        "composer-validate": "composer validate --strict",
+        "doctrine-validate": "@php bin/console doctrine:schema:validate --env=test --skip-sync",
         "fix-cs": "vendor/bin/ecs check --fix --ansi",
+        "lint-container": "@php bin/console lint:container --env=test",
         "phpstan": "vendor/bin/phpstan --memory-limit=1G",
+        "security-audit": "composer audit",
         "test-setup": [
             "@php bin/console doctrine:database:create --env=test --if-not-exists --no-interaction",
             "@php bin/console doctrine:migrations:migrate --env=test --no-interaction"
