@@ -3,7 +3,6 @@ FROM dunglas/frankenphp
 RUN apt-get update && apt-get install -y \
     git \
     libpq-dev \
-    postgresql-client \
     unzip
 
 RUN docker-php-ext-install pdo_pgsql

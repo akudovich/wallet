@@ -18,12 +18,6 @@ run_auto_setup() {
 
     composer install --no-interaction --prefer-dist --no-progress
 
-    echo "Waiting for database..."
-
-    until pg_isready -h "${POSTGRES_HOST:-database}" -p "${POSTGRES_PORT:-5432}" -U "${POSTGRES_USER:-app}" -d "${POSTGRES_DB:-app}" >/dev/null 2>&1; do
-        sleep 1
-    done
-
     php bin/console doctrine:migrations:migrate --no-interaction
 }
 
