@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Wallet\Domain\Transaction;
 
-use App\Wallet\Domain\Clock;
 use App\Wallet\Domain\Money;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -56,12 +55,17 @@ final class Transaction
         }
     }
 
-    public function __construct(int $walletId, TransactionType $type, TransactionReason $reason, Money $amount)
-    {
+    public function __construct(
+        int $walletId,
+        TransactionType $type,
+        TransactionReason $reason,
+        Money $amount,
+        DateTimeImmutable $createdAt
+    ) {
         $this->walletId = $walletId;
         $this->type = $type;
         $this->reason = $reason;
         $this->amount = $amount;
-        $this->createdAt = new Clock()->now();
+        $this->createdAt = $createdAt;
     }
 }

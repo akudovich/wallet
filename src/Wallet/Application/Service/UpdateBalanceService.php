@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Wallet\Application\Service;
 
+use App\Wallet\Application\Clock;
 use App\Wallet\Application\Command\UpdateBalance;
 use App\Wallet\Application\TransactionManager;
 use App\Wallet\Domain\Transaction\Transaction;
@@ -17,6 +18,7 @@ final readonly class UpdateBalanceService
         private WalletRepository $repository,
         private TransactionRepository $transactionRepository,
         private TransactionManager $transactionManager,
+        private Clock $clock,
     ) {}
 
     public function update(UpdateBalance $command): void
@@ -26,6 +28,7 @@ final readonly class UpdateBalanceService
             type: $command->type,
             reason: $command->reason,
             amount: $command->amount,
+            createdAt: $this->clock->now(),
         );
 
         $this->transactionManager->transactional(function () use ($transaction): void {

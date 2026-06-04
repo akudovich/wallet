@@ -3,11 +3,6 @@ deptrac:
     - ./src/Wallet
 
   layers:
-    - name: PSR Contracts
-      collectors:
-        - type: classLike
-          value: Psr\\.*
-
     - name: Doctrine Attributes
       collectors:
         - type: classLike
@@ -49,23 +44,15 @@ deptrac:
           value: App\\Wallet\\UI\\.*
 
   ruleset:
-    PSR Contracts: ~
-    Doctrine Attributes: ~
-    Doctrine Runtime: ~
-    Symfony UI: ~
     Domain:
       - Doctrine Attributes
-      - PSR Contracts
     Application:
       - Domain
-      - PSR Contracts
     Infrastructure:
       - Application
       - Doctrine Runtime
       - Domain
-      - PSR Contracts
     UI:
       - Application
       - Domain
-      - PSR Contracts
       - Symfony UI

@@ -7,7 +7,6 @@ namespace App\Wallet\UI\Http\UpdateService;
 use App\Wallet\Application\Command\UpdateBalance;
 use App\Wallet\Application\Service\UpdateBalanceService;
 use App\Wallet\Domain\Exception\DomainException;
-use App\Wallet\Domain\Money;
 use App\Wallet\Domain\Transaction\TransactionReason;
 use App\Wallet\Domain\Transaction\TransactionType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -40,11 +39,12 @@ final readonly class Controller
         #[MapRequestPayload(validationFailedStatusCode: Response::HTTP_BAD_REQUEST)]
         RequestBody $requestBody,
     ): Response {
-        $command = new UpdateBalance(
+        $command = UpdateBalance::create(
             id: $id,
             type: $type,
             reason: $reason,
-            amount: new Money(amount: $requestBody->amount, currency: $requestBody->currency),
+            amount: $requestBody->amount,
+            currency: $requestBody->currency
         );
 
         try {
